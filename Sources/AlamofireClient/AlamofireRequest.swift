@@ -2,9 +2,9 @@ import NetworkManager
 import Alamofire
 
 struct AlamofireRequest: NetworkManager.Request {
-    private let request: DataRequest
+    private let request: Alamofire.Request
     
-    init(request: DataRequest) {
+    init(request: Alamofire.Request) {
         self.request = request
     }
     
