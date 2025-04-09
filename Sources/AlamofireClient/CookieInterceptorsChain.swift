@@ -2,12 +2,12 @@ import NetworkManager
 import Foundation
 import Alamofire
 
-struct CookieInterceptorChain: RequestInterceptor {
-    let interceptors: [NMInterceptor]
-    let cookie: HTTPCookie?
+struct CookieInterceptorsChain: RequestInterceptor {
+    let interceptorsChain: RestAPIInterceptorChain
+    private let cookie: HTTPCookie?
     
-    init(interceptors: [NMInterceptor], cookie: HTTPCookie?) {
-        self.interceptors = interceptors
+    init(interceptors: [RestAPIInterceptor], cookie: HTTPCookie?) {
+        self.interceptorsChain = RestAPIInterceptorChain(interceptors: interceptors)
         self.cookie = cookie
     }
     
@@ -16,7 +16,7 @@ struct CookieInterceptorChain: RequestInterceptor {
         if let cookie {
             currentRequest.applyCookie(cookie)
         }
-        NMInterceptorChain(interceptors: interceptors)
+        interceptorsChain
             .proceed(request: urlRequest) { result in
                 completion(result)
             }
