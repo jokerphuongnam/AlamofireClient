@@ -61,7 +61,9 @@ public struct AlamofireClient: Client {
         )
         let request = session.upload(
             multipartFormData: { multipartFormData in
-                
+                for part in parts {
+                    multipartFormData.append(part.content, withName: part.name, fileName: part.name, mimeType: part.mineType)
+                }
             },
             to: url,
             method: HTTPMethod(rawValue: method),
